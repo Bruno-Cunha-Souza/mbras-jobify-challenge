@@ -1,0 +1,38 @@
+name: jobify
+
+services:
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_PASSWORD=my_password
+      - POSTGRES_DB=polls
+    networks:
+      - jobify-network
+    volumes:
+      - polls_pg_data:/postgres
+    
+ 
+  pgadmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    ports:
+      - '15432:80'
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=my_password
+    networks:
+      - jobify-network
+    volumes:
+      - polls_pgadmin_data:/dpage/pgadmin4
+
+networks:
+  jobify-network:
+    driver: bridge
+
+volumes:
+  polls_pg_data:
+  polls_pgadmin_data:
