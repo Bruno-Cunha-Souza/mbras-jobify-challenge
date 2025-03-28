@@ -17,7 +17,6 @@ func SetupMiddleware(app *fiber.App) {
 	}))
 }
 
-// Middleware de autenticação que utiliza as funções acima
 func AuthMiddleware(c *fiber.Ctx) error {
 	authHeader := c.Get("Authorization")
 	if authHeader == "" {
@@ -45,9 +44,7 @@ func AuthMiddleware(c *fiber.Ctx) error {
 		return c.Status(401).JSON(fiber.Map{"error": "token sem user_id válido"})
 	}
 
-	// Adiciona o userID no contexto da requisição
 	c.Locals("userID", uint(userID))
 
-	// Continua o processamento da requisição
 	return c.Next()
 }
