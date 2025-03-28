@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/Bruno-Cunha-Souza/Jobify/backend/internal/controllers"
+	"github.com/Bruno-Cunha-Souza/Jobify/backend/internal/middleware"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -11,4 +12,8 @@ func setupJobRoutes(public fiber.Router) {
 	jobs.Get("/", controllers.GetAllJobs)
 	jobs.Get("/search", controllers.SearchJob)
 	jobs.Get("/:id", controllers.GetJobID)
+
+	jobs.Post("/jobs/:jobID/favorite", middleware.AuthMiddleware, controllers.FavoriteJobHandler)
+	jobs.Delete("/jobs/:jobID/favorite", middleware.AuthMiddleware, controllers.UnfavoriteJobHandler)
+
 }

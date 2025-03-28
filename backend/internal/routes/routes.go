@@ -11,6 +11,5 @@ func SetupRoutes(app *fiber.App) {
 	api := app.Group("/api")
 	setupLoginRoute(api)
 	setupJobRoutes(api)
-	setupFavoriteRoutes(api)
 
 }
