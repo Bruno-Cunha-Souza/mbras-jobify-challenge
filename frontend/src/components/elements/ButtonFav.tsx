@@ -19,14 +19,24 @@ const ButtonFav: React.FC<ButtonFavProps> = ({ jobId, isFavorited, onFavoriteTog
     setIsChecked(newIsChecked);
 
     try {
+      // Busca o token no cookie
       const token = document.cookie
         .split("; ")
         .find((row) => row.startsWith("token="))
         ?.split("=")[1];
+
       if (!token) {
-        throw new Error("Token não encontrado");
+        // Se o token não for encontrado, exibe uma mensagem e pergunta se deseja fazer login
+        const userConfirmed = window.confirm("Você não está logado. Deseja fazer login?");
+        if (userConfirmed) {
+          // Redireciona para a página de login usando window.location.href
+          window.location.href = "/user";
+        }
+        // Retorna para não tentar fazer a requisição sem o token
+        return;
       }
 
+      // Envia a requisição para favoritar/desfavoritar
       await fetch(`http://localhost:3001/api/jobs/${jobId}/favorite`, {
         method: "POST",
         headers: {

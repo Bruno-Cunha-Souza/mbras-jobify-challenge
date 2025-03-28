@@ -25,26 +25,25 @@ const CardVagas: React.FC<CardVagasProps> = ({ id, company, logo, title, data, j
 
   useEffect(() => {
     const fetchFavoriteStatus = async () => {
-      try {
-        const token = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("token="))
-          ?.split("=")[1];
-
-        if (!token) {
-          throw new Error("Token não encontrado");
+      const token = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("token="))
+        ?.split("=")[1];
+      if (token) {
+        try {
+          const response = await fetch(`http://localhost:3001/api/jobs/favorites/status/${id}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const data = await response.json();
+          setIsFavorited(data.isFavorited);
+        } catch (error) {
+          console.error("Erro ao verificar status do favorito:", error);
         }
-        const response = await fetch(`http://localhost:3001/api/jobs/favorites/status/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = await response.json();
-        setIsFavorited(data.isFavorited);
-      } catch (error) {
-        console.error("Erro ao verificar status do favorito:", error);
+        return;
       }
     };
 
