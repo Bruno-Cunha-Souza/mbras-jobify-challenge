@@ -7,7 +7,7 @@ type User struct {
 	Email     string `gorm:"unique"`
 	Password  string `gorm:"type:varchar(64);not null"`
 	Name      string
-	Favorites []Favorite `gorm:"foreignKey:UserID"`
+	Favorites []Favorite `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
 }
 
 type RegisterInput struct {

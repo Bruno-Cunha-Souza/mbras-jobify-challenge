@@ -21,7 +21,7 @@ const ButtonFav: React.FC<ButtonFavProps> = ({ jobId, isFavorited, onFavoriteTog
         throw new Error("Token não encontrado");
       }
       await fetch(`http://localhost:3001/api/jobs/${jobId}/favorite`, {
-        method: isChecked ? "DELETE" : "POST",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

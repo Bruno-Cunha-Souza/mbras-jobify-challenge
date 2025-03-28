@@ -16,7 +16,7 @@ type Job struct {
 	Description     string
 	CreatedAt       time.Time  `gorm:"autoCreateTime"`
 	UpdatedAt       time.Time  `gorm:"autoUpdateTime"`
-	Favorites       []Favorite `gorm:"foreignKey:JobID"`
+	Favorites       []Favorite `gorm:"foreignKey:JobID;constraint:OnDelete:CASCADE"`
 }
 
 type JobResponse struct {
