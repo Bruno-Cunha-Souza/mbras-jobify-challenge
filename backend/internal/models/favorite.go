@@ -1,11 +1,9 @@
 package models
 
-import "gorm.io/gorm"
-
-type FavoriteJob struct {
-	gorm.Model
-	UserID uint `gorm:"index"`
-	JobID  uint `gorm:"index"`
+type Favorite struct {
+	ID     uint `gorm:"primaryKey"`
+	UserID uint
+	JobID  uint
 	User   User `gorm:"foreignKey:UserID"`
 	Job    Job  `gorm:"foreignKey:JobID"`
 }

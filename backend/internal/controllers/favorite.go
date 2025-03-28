@@ -18,7 +18,7 @@ func ToggleFavorite(c *fiber.Ctx) error {
 		return c.Status(400).JSON(fiber.Map{"error": "ID da vaga inválido"})
 	}
 
-	var favorite models.FavoriteJob
+	var favorite models.Favorite
 	err = database.DB.Where("user_id = ? AND job_id = ?", userID, jobID).First(&favorite).Error
 
 	if err == nil {
@@ -32,7 +32,7 @@ func ToggleFavorite(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"error": "erro ao verificar favoritos"})
 	}
 
-	newFavorite := models.FavoriteJob{UserID: userID, JobID: uint(jobID)}
+	newFavorite := models.Favorite{UserID: userID, JobID: uint(jobID)}
 	if err := database.DB.Create(&newFavorite).Error; err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": "erro ao adicionar aos favoritos"})
 	}

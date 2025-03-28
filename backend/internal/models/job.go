@@ -14,8 +14,9 @@ type Job struct {
 	URL             string
 	Salary          string
 	Description     string
-	CreatedAt       time.Time `gorm:"autoCreateTime"`
-	UpdatedAt       time.Time `gorm:"autoUpdateTime"`
+	CreatedAt       time.Time  `gorm:"autoCreateTime"`
+	UpdatedAt       time.Time  `gorm:"autoUpdateTime"`
+	Favorites       []Favorite `gorm:"foreignKey:JobID"`
 }
 
 type JobResponse struct {

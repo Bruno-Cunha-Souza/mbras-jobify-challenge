@@ -4,9 +4,10 @@ import "gorm.io/gorm"
 
 type User struct {
 	gorm.Model
-	Email    string `gorm:"unique"`
-	Password string `gorm:"type:varchar(64);not null"`
-	Name     string
+	Email     string `gorm:"unique"`
+	Password  string `gorm:"type:varchar(64);not null"`
+	Name      string
+	Favorites []Favorite `gorm:"foreignKey:UserID"`
 }
 
 type RegisterInput struct {

@@ -28,6 +28,6 @@ func ConnectDB() {
 		log.Fatal("erro ao conectar ao banco de dados:", err)
 	}
 
-	DB.AutoMigrate(&models.User{}, &models.LoginInput{}, &models.RegisterInput{}, &models.Job{}, &models.JobResponse{}, &models.JobDetailsResponse{}, &models.FavoriteJob{})
+	DB.AutoMigrate(&models.User{}, &models.Job{}, &models.Favorite{})
 
 }
