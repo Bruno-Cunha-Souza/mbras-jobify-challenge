@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardCompany } from "@/components/ui/card";
 import ButtonFav from "./ButtonFav";
@@ -17,24 +17,61 @@ interface CardVagasProps {
 }
 
 const CardVagas: React.FC<CardVagasProps> = ({ id, company, logo, title, data, job_tyme, salary }) => {
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  const handleFavoriteToggle = (jobId: number, newFavoriteState: boolean) => {
+    setIsFavorited(newFavoriteState);
+  };
+
+  useEffect(() => {
+    // Verifique o estado do favorito ao carregar a vaga, pode ser uma requisição à API para pegar os favoritos do usuário
+    const fetchFavoriteStatus = async () => {
+      try {
+        const token = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("token="))
+          ?.split("=")[1];
+
+        if (!token) {
+          throw new Error("Token não encontrado");
+        }
+        const response = await fetch(`http://localhost:3001/api/jobs/favorites/status/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        setIsFavorited(data.isFavorited);
+      } catch (error) {
+        console.error("Erro ao verificar status do favorito:", error);
+      }
+    };
+
+    fetchFavoriteStatus();
+  }, [id]);
+
   return (
-    <Link href={`/${id}`} className="w-full h-full ">
-      <Card className="cursor-pointer hover:shadow-lg transition-all min-h-68">
-        <CardHeader className="flex items-center gap-3">
-          {logo && <Image src={logo} alt={`${company} logo`} width={32} height={32} className="rounded-md object-cover" priority />}
-          <CardCompany>{company}</CardCompany>
-        </CardHeader>
-        <CardTitle className="px-6">{title}</CardTitle>
-        <CardContent>
-          <p>{job_tyme}</p>
-          <p>{salary}</p>
-        </CardContent>
-        <CardFooter>
-          <p>{data}</p>
-          <ButtonFav />
-        </CardFooter>
-      </Card>
-    </Link>
+    <div className="w-full h-full ">
+      <Link href={`/${id}`}>
+        <Card className="cursor-pointer hover:shadow-lg transition-all min-h-68">
+          <CardHeader className="flex items-center gap-3">
+            {logo && <Image src={logo} alt={`${company} logo`} width={32} height={32} className="rounded-md object-cover" priority />}
+            <CardCompany>{company}</CardCompany>
+          </CardHeader>
+          <CardTitle className="px-6">{title}</CardTitle>
+          <CardContent>
+            <p>{job_tyme}</p>
+            <p>{salary}</p>
+          </CardContent>
+          <CardFooter>
+            <p>{data}</p>
+          </CardFooter>
+        </Card>
+      </Link>
+      <ButtonFav jobId={id} isFavorited={isFavorited} onFavoriteToggle={handleFavoriteToggle} />
+    </div>
   );
 };
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -71,8 +72,9 @@ export function LoginForm() {
       });
       const data: { error?: string; token?: string } = await res.json();
       if (!res.ok) throw new Error(data.error || "Erro ao fazer login");
-      if (data.token) {
-        document.cookie = `token=${data.token}; path=/`; // Armazena o token nos cookies
+      if (res.status === 200) {
+        const data = await res.json();
+        Cookies.set("token", data.token);
         router.push("/");
       }
     } catch (err) {

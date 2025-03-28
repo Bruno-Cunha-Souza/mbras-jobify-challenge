@@ -1,12 +1,12 @@
 package middleware
 
 import (
-	"fmt"
 	"os"
+	"strings"
 
+	"github.com/Bruno-Cunha-Souza/Jobify/backend/internal/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/golang-jwt/jwt/v5"
 )
 
 func SetupMiddleware(app *fiber.App) {
@@ -16,28 +16,28 @@ func SetupMiddleware(app *fiber.App) {
 		AllowCredentials: true,
 	}))
 }
+
+// Middleware de autenticação que utiliza as funções acima
 func AuthMiddleware(c *fiber.Ctx) error {
-	tokenString := c.Get("Authorization")
-	if tokenString == "" {
-		return c.Status(401).JSON(fiber.Map{"error": "token ausente"})
+	authHeader := c.Get("Authorization")
+	if authHeader == "" {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"error": "token nao fornecido",
+		})
 	}
 
-	secret := os.Getenv("SECRET_KEY")
-
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("método de assinatura inválido")
-		}
-		return []byte(secret), nil
-	})
-
-	if err != nil || !token.Valid {
-		return c.Status(401).JSON(fiber.Map{"error": "token inválido"})
+	tokenString := strings.TrimPrefix(authHeader, "Bearer ")
+	if tokenString == authHeader {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"error": "formato do token invalido",
+		})
 	}
 
-	claims, ok := token.Claims.(jwt.MapClaims)
-	if !ok {
-		return c.Status(401).JSON(fiber.Map{"error": "token mal formatado"})
+	claims, err := utils.ValidateToken(tokenString)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"error": "token invalido",
+		})
 	}
 
 	userID, ok := claims["user_id"].(float64)
@@ -48,5 +48,6 @@ func AuthMiddleware(c *fiber.Ctx) error {
 	// Adiciona o userID no contexto da requisição
 	c.Locals("userID", uint(userID))
 
+	// Continua o processamento da requisição
 	return c.Next()
 }

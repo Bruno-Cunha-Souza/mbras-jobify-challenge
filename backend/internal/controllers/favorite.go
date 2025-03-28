@@ -88,3 +88,22 @@ func ListFavoriteJobsHandler(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(fiber.Map{"favorites": favoriteJobs})
 }
+
+func CheckFavoriteStatusHandler(c *fiber.Ctx) error {
+	userID, ok := c.Locals("userID").(uint)
+	if !ok {
+		return c.Status(401).JSON(fiber.Map{"error": "Usuário não autenticado"})
+	}
+
+	jobID, err := strconv.ParseUint(c.Params("jobID"), 10, 64)
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "ID da vaga inválido"})
+	}
+
+	var favorite models.Favorite
+	if err := database.DB.Where("user_id = ? AND job_id = ?", userID, jobID).First(&favorite).Error; err != nil {
+		return c.Status(200).JSON(fiber.Map{"isFavorited": false})
+	}
+
+	return c.Status(200).JSON(fiber.Map{"isFavorited": true})
+}

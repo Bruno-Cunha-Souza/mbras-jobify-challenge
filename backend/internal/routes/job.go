@@ -13,7 +13,8 @@ func setupJobRoutes(public fiber.Router) {
 	jobs.Get("/search", controllers.SearchJob)
 	jobs.Get("/:id", controllers.GetJobID)
 
-	jobs.Post("/jobs/:jobID/favorite", middleware.AuthMiddleware, controllers.FavoriteJobHandler)
-	jobs.Delete("/jobs/:jobID/favorite", middleware.AuthMiddleware, controllers.UnfavoriteJobHandler)
+	jobs.Post("/:jobID/favorite", middleware.AuthMiddleware, controllers.FavoriteJobHandler)
+	jobs.Delete("/:jobID/favorite", middleware.AuthMiddleware, controllers.UnfavoriteJobHandler)
+	jobs.Get("/favorites/status/:jobID", middleware.AuthMiddleware, controllers.CheckFavoriteStatusHandler)
 
 }
