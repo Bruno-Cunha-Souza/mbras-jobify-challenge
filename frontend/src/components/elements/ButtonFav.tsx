@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 interface ButtonFavProps {
@@ -10,8 +10,14 @@ interface ButtonFavProps {
 const ButtonFav: React.FC<ButtonFavProps> = ({ jobId, isFavorited, onFavoriteToggle }) => {
   const [isChecked, setIsChecked] = useState(isFavorited);
 
+  useEffect(() => {
+    setIsChecked(isFavorited);
+  }, [isFavorited]);
+
   const handleFavoriteToggle = async () => {
-    setIsChecked(!isChecked);
+    const newIsChecked = !isChecked;
+    setIsChecked(newIsChecked);
+
     try {
       const token = document.cookie
         .split("; ")
@@ -20,6 +26,7 @@ const ButtonFav: React.FC<ButtonFavProps> = ({ jobId, isFavorited, onFavoriteTog
       if (!token) {
         throw new Error("Token não encontrado");
       }
+
       await fetch(`http://localhost:3001/api/jobs/${jobId}/favorite`, {
         method: "POST",
         headers: {
@@ -28,7 +35,7 @@ const ButtonFav: React.FC<ButtonFavProps> = ({ jobId, isFavorited, onFavoriteTog
         },
       });
 
-      onFavoriteToggle(jobId, !isChecked);
+      onFavoriteToggle(jobId, newIsChecked);
     } catch (error) {
       console.error("Erro ao atualizar favorito:", error);
       setIsChecked(isChecked);
@@ -78,7 +85,7 @@ const StyledWrapper = styled.div`
     align-items: center;
   }
 
-  .bookmark.active {
+  .bookmark::after {
     content: "";
     position: absolute;
     width: 10px;

@@ -24,7 +24,6 @@ const CardVagas: React.FC<CardVagasProps> = ({ id, company, logo, title, data, j
   };
 
   useEffect(() => {
-    // Verifique o estado do favorito ao carregar a vaga, pode ser uma requisição à API para pegar os favoritos do usuário
     const fetchFavoriteStatus = async () => {
       try {
         const token = document.cookie

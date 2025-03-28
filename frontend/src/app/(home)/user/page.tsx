@@ -71,7 +71,7 @@ export function LoginForm() {
       const data: { error?: string; token?: string } = await res.json();
       if (!res.ok) throw new Error(data.error || "Erro ao fazer login");
       if (data.token) {
-        document.cookie = `token=${data.token}; path=/`; // Armazena o token nos cookies
+        document.cookie = `token=${data.token}; path=/`;
         router.push("/");
       }
     } catch (err) {
