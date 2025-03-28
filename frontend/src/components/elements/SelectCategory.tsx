@@ -19,7 +19,6 @@ const SelectCategory: React.FC<SelectCategoryProps> = ({ onCategoryChange }) => 
       try {
         const response = await fetch("https://remotive.com/api/remote-jobs/categories");
         const data = await response.json();
-        console.log(data);
         if (data.jobs && Array.isArray(data.jobs)) {
           setCategories(data.jobs);
         } else {

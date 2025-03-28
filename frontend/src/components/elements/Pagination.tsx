@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 interface PaginationProps {
   currentPage: number;
@@ -17,15 +18,19 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, onPageChange, tota
 
   return (
     <div className="flex justify-center items-center gap-2 mt-4">
-      <button onClick={handlePrevPage} disabled={currentPage === 1} className="px-4 py-2 bg-gray-300 rounded">
+      <ButtonStyled onClick={handlePrevPage} disabled={currentPage === 1} className="px-4 py-2 bg-gray-300 rounded">
         Anterior
-      </button>
+      </ButtonStyled>
       <span>{`Página ${currentPage} de ${totalPages}`}</span>
-      <button onClick={handleNextPage} disabled={currentPage === totalPages} className="px-4 py-2 bg-gray-300 rounded">
+      <ButtonStyled onClick={handleNextPage} disabled={currentPage === totalPages} className="px-4 py-2 bg-gray-300 rounded">
         Próxima
-      </button>
+      </ButtonStyled>
     </div>
   );
 };
 
+const ButtonStyled = styled.button`
+  background-color: var(--secundary);
+  cursor: pointer;
+`;
 export default Pagination;

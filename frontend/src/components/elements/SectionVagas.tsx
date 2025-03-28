@@ -80,7 +80,7 @@ const SectionVagas = () => {
         <SelectCategory onCategoryChange={setCategory} />
       </div>
 
-      <div className="container mx-auto py-4 px-5 max-h-[70vh] overflow-hidden overflow-y-auto">
+      <div className="container mx-auto py-4 px-5 max-h-[80vh] overflow-hidden overflow-y-auto">
         {loading ? (
           <p>Carregando...</p>
         ) : (
@@ -88,6 +88,7 @@ const SectionVagas = () => {
             {jobs.map((job) => (
               <CardVagas
                 key={job.id}
+                id={job.id}
                 url={job.url}
                 company={job.company_name}
                 logo={job.company_logo_url}
