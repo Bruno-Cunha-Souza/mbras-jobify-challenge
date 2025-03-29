@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const API_URL = "http://localhost:3001/api/user";
+const API_URL = "http://localhost:5000/api/user";
 
 export function RegisterForm() {
   const [email, setEmail] = useState("");

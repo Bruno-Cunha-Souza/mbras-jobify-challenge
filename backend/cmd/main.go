@@ -12,7 +12,7 @@ import (
 
 func main() {
 
-	err := godotenv.Load("../.env")
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatalf("Erro ao carregar .env: %v", err)
 	}
@@ -24,7 +24,7 @@ func main() {
 	app := fiber.New()
 	routes.SetupRoutes(app)
 
-	if err := app.Listen(":3001"); err != nil {
+	if err := app.Listen(":5000"); err != nil {
 		log.Fatalf("Erro ao iniciar o servidor: %v", err)
 	}
 }

@@ -15,19 +15,33 @@ services:
     volumes:
       - polls_pg_data:/postgres
     
- 
-  pgadmin:
-    container_name: pgadmin4
-    image: dpage/pgadmin4
+  backend:
+    container_name: backend
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - postgres
+    env_file:
+      - ../backend/.env
     ports:
-      - '15432:80'
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=my_password
+      - "5000:5000"
     networks:
       - jobify-network
-    volumes:
-      - polls_pgadmin_data:/dpage/pgadmin4
+  frontend:
+    container_name: frontend
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    networks:
+      - jobify-network
+
 
 networks:
   jobify-network:
@@ -35,4 +49,3 @@ networks:
 
 volumes:
   polls_pg_data:
-  polls_pgadmin_data:

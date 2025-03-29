@@ -46,12 +46,12 @@ const SectionVagas = () => {
   const fetchJobs = async (searchQuery: string = "", categorySlug: string = "", page: number = 1) => {
     setLoading(true);
     try {
-      let url = `http://localhost:3001/api/jobs?page=${page}`;
+      let url = `http://localhost:5000/api/jobs?page=${page}`;
       if (searchQuery) {
-        url = `http://localhost:3001/api/jobs/search?search=${searchQuery}&page=${page}`;
+        url = `http://localhost:5000/api/jobs/search?search=${searchQuery}&page=${page}`;
       }
       if (categorySlug) {
-        url = `http://localhost:3001/api/jobs/search?search=${categorySlug}&page=${page}`;
+        url = `http://localhost:5000/api/jobs/search?search=${categorySlug}&page=${page}`;
       }
 
       const response = await fetch(url);

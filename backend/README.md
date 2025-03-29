@@ -11,5 +11,6 @@ Deselvolvi esta nova API para alem de salvar os itens marcados como "favoritos" 
 ## Funcionalidades Adicionais
 
 - **Cadastro e login de Usuario**
+- **Adicionar mais possibilidades de busca da vaga**
 - **Armazenamento das vagas cadastradas na API Remotive**
 - **Rotina de verificação periodica de novas vagas**

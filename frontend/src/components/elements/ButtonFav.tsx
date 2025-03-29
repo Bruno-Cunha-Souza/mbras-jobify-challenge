@@ -31,7 +31,7 @@ const ButtonFav: React.FC<ButtonFavProps> = ({ jobId, isFavorited, onFavoriteTog
         }
         return;
       }
-      await fetch(`http://localhost:3001/api/jobs/${jobId}/favorite`, {
+      await fetch(`http://localhost:5000/api/jobs/${jobId}/favorite`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

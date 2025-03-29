@@ -6,9 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const API_URL = "http://localhost:3001/api/user";
+const API_URL = "http://localhost:5000/api/user";
 
-export function RegisterForm({ onRegisterSuccess }: { onRegisterSuccess: () => void }) {
+function RegisterForm({ onRegisterSuccess }: { onRegisterSuccess: () => void }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -53,7 +53,7 @@ export function RegisterForm({ onRegisterSuccess }: { onRegisterSuccess: () => v
   );
 }
 
-export function LoginForm() {
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

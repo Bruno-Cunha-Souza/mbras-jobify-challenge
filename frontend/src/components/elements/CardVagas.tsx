@@ -31,7 +31,7 @@ const CardVagas: React.FC<CardVagasProps> = ({ id, company, logo, title, data, j
         ?.split("=")[1];
       if (token) {
         try {
-          const response = await fetch(`http://localhost:3001/api/jobs/favorites/status/${id}`, {
+          const response = await fetch(`http://localhost:5000/api/jobs/favorites/status/${id}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
