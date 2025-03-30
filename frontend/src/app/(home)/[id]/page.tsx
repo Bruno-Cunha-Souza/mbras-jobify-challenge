@@ -2,45 +2,14 @@
 import ToogleTheme from "@/components/elements/ToogleTheme";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FiArrowLeft } from "react-icons/fi";
-
-interface JobProps {
-  description: string;
-}
+import { useJobDetails } from "../../../hooks/useJobDetails";
 
 const JobDetalhes: React.FC = () => {
-  const [job, setJob] = useState<JobProps | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
   const { id } = useParams();
-
-  useEffect(() => {
-    if (id) {
-      const fetchJob = async () => {
-        try {
-          const res = await fetch(`http://localhost:5000/api/jobs/${id}`);
-          if (!res.ok) {
-            throw new Error("Erro ao buscar dados da vaga");
-          }
-          const data = await res.json();
-          console.log("Dados da vaga:", data);
-          setJob(data);
-        } catch (err: unknown) {
-          if (err instanceof Error) {
-            setError(err.message);
-          } else {
-            setError("Erro desconhecido");
-          }
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchJob();
-    }
-  }, [id]);
+  const jobId = Array.isArray(id) ? id[0] : id;
+  const { job, loading, error } = useJobDetails(jobId);
 
   if (loading) {
     return <p>Carregando...</p>;
