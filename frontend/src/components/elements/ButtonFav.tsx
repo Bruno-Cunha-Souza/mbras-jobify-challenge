@@ -119,4 +119,4 @@ const StyledWrapper = styled.div`
   }
 `;
 
-export default ButtonFav;
+export default React.memo(ButtonFav);

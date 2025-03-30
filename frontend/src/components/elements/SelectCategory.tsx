@@ -34,7 +34,7 @@ const SelectCategory: React.FC<SelectCategoryProps> = ({ onCategoryChange }) => 
 
   return (
     <Select onValueChange={onCategoryChange}>
-      <SelectTrigger className="w-1/5 ">
+      <SelectTrigger className="w-1/2 sm:w-1/5">
         <SelectValue placeholder="Escolha a categoria" />
       </SelectTrigger>
       <SelectContent className="h-[280px]">

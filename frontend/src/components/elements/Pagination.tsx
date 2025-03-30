@@ -18,11 +18,11 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, onPageChange, tota
 
   return (
     <div className="flex justify-center items-center gap-2 mt-4">
-      <ButtonStyled onClick={handlePrevPage} disabled={currentPage === 1} className="px-4 py-2 bg-gray-300 rounded">
+      <ButtonStyled onClick={handlePrevPage} disabled={currentPage === 1} className="px-4 py-2  rounded">
         Anterior
       </ButtonStyled>
       <span>{`Página ${currentPage} de ${totalPages}`}</span>
-      <ButtonStyled onClick={handleNextPage} disabled={currentPage === totalPages} className="px-4 py-2 bg-gray-300 rounded">
+      <ButtonStyled onClick={handleNextPage} disabled={currentPage === totalPages} className="px-4 py-2 rounded">
         Próxima
       </ButtonStyled>
     </div>
@@ -31,6 +31,9 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, onPageChange, tota
 
 const ButtonStyled = styled.button`
   background-color: var(--secundary);
+  font-weight: 500;
+  font-size: 1.25rem;
   cursor: pointer;
+  color: white;
 `;
 export default Pagination;

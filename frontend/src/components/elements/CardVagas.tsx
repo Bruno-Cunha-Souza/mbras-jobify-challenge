@@ -51,7 +51,7 @@ const CardVagas: React.FC<CardVagasProps> = ({ id, company, logo, title, data, j
   }, [id]);
 
   return (
-    <div className="w-full h-full ">
+    <div className="w-full h-full relative">
       <Link href={`/${id}`}>
         <Card className="cursor-pointer hover:shadow-lg transition-all min-h-68">
           <CardHeader className="flex items-center gap-3">
@@ -68,7 +68,9 @@ const CardVagas: React.FC<CardVagasProps> = ({ id, company, logo, title, data, j
           </CardFooter>
         </Card>
       </Link>
-      <ButtonFav jobId={id} isFavorited={isFavorited} onFavoriteToggle={handleFavoriteToggle} />
+      <div className="absolute bottom-2 right-2">
+        <ButtonFav jobId={id} isFavorited={isFavorited} onFavoriteToggle={handleFavoriteToggle} />
+      </div>
     </div>
   );
 };
