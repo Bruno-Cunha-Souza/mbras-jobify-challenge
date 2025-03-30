@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import { LoginForm } from "./componentes/LoginForm";
-import { RegisterForm } from "./componentes/RegisterForm";
+import { LoginForm } from "./components/LoginForm";
+import { RegisterForm } from "./components/RegisterForm";
 import { AuthProvider } from "../../../contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 
