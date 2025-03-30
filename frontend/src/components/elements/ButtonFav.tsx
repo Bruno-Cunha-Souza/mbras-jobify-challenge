@@ -15,22 +15,23 @@ const ButtonFav: React.FC<ButtonFavProps> = ({ jobId, isFavorited, onFavoriteTog
   }, [isFavorited]);
 
   const handleFavoriteToggle = async () => {
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("token="))
+      ?.split("=")[1];
+
+    if (!token) {
+      const userConfirmed = window.confirm("Você não está logado. Deseja fazer login?");
+      if (userConfirmed) {
+        window.location.href = "/user";
+      }
+      return;
+    }
+
     const newIsChecked = !isChecked;
     setIsChecked(newIsChecked);
 
     try {
-      const token = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("token="))
-        ?.split("=")[1];
-
-      if (!token) {
-        const userConfirmed = window.confirm("Você não está logado. Deseja fazer login?");
-        if (userConfirmed) {
-          window.location.href = "/user";
-        }
-        return;
-      }
       await fetch(`http://localhost:5000/api/jobs/${jobId}/favorite`, {
         method: "POST",
         headers: {
