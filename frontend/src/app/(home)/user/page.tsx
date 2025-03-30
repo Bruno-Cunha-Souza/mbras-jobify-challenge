@@ -10,9 +10,9 @@ export default function AuthPage() {
 
   return (
     <AuthProvider>
-      <div className="flex flex-col items-center justify-center min-h-screen space-y-6">
+      <div className="flex flex-col items-center justify-center min-h-screen space-y-6 ">
         {isLogin ? <LoginForm /> : <RegisterForm onRegisterSuccess={() => setIsLogin(true)} />}
-        <Button variant="link" onClick={() => setIsLogin(!isLogin)}>
+        <Button variant="link" onClick={() => setIsLogin(!isLogin)} className="cursor-pointer">
           {isLogin ? "Não tem uma conta? Cadastre-se" : "Já tem uma conta? Faça login"}
         </Button>
       </div>

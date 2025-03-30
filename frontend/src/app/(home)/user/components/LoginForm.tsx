@@ -26,16 +26,16 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="w-full container mx-auto">
+    <Card className="w-full container mx-auto sm:max-w-[25vw]">
       <CardHeader>
         <CardTitle>Login</CardTitle>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleLogin} className="space-y-4">
+      <CardContent className="flex flex-col items-center justify-center">
+        <form onSubmit={handleLogin} className="space-y-6 w-full">
           <Input type="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} required />
           <Input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} required />
           {error && <p className="text-red-500 text-sm">{error}</p>}
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full cursor-pointer bg-blue-500 hover:bg-blue-600 text-white">
             Entrar
           </Button>
         </form>
