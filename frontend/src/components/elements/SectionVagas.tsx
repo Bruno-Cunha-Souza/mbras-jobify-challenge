@@ -1,77 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CardVagas from "@/components/elements/CardVagas";
 import { Input } from "../ui/input";
 import { SelectCategory } from "@/components/elements/SelectCategory";
 import Pagination from "@/components/elements/Pagination";
-
-const useDebounce = (value: string, delay: number) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-};
-
-interface Job {
-  id: number;
-  company_name: string;
-  company_logo_url?: string;
-  title: string;
-  publication_date: string;
-  description: string;
-  salary?: string;
-  job_type: string;
-  url: string;
-}
+import { useDebounce } from "../../hooks/useDebounce";
+import { useJobs } from "../../hooks/useJobs";
 
 const SectionVagas = () => {
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const debouncedSearch = useDebounce(search, 250);
 
-  const fetchJobs = async (searchQuery: string = "", categorySlug: string = "", page: number = 1) => {
-    setLoading(true);
-    try {
-      let url = `http://localhost:5000/api/jobs?page=${page}`;
-      if (searchQuery) {
-        url = `http://localhost:5000/api/jobs/search?search=${searchQuery}&page=${page}`;
-      }
-      if (categorySlug) {
-        url = `http://localhost:5000/api/jobs/search?search=${categorySlug}&page=${page}`;
-      }
-
-      const response = await fetch(url);
-      const data = await response.json();
-      setJobs(data.jobs);
-      setTotalPages(data.totalPages);
-    } catch (error) {
-      console.error("Erro ao buscar vagas:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (debouncedSearch === "" && category === "") {
-      fetchJobs("", "", page);
-    } else {
-      fetchJobs(debouncedSearch, category, page);
-    }
-  }, [debouncedSearch, category, page]);
+  const { jobs, totalPages, loading } = useJobs(debouncedSearch, category, page);
 
   return (
     <section>
